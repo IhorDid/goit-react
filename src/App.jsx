@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
+import { Formik, Form, Field } from "formik";
+
 import "./App.css";
 
 // function App() {
@@ -245,5 +247,222 @@ import "./App.css";
 //     </div>
 //   );
 // };
+
+// const LoginForm = () => {
+//   const handleSubmit = (evt) => {
+//     evt.preventDefault();
+//     const form = evt.target;
+//     const { login, password } = form.elements;
+
+// Посилання на DOM-елементи
+//     console.log(login, password);
+
+// Значення полів
+//     console.log(login.value, password.value);
+
+// Скидаємо значення полів після відправки
+//     form.reset();
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input type="text" name="login" />
+//       <input type="password" name="password" />
+//       <button type="submit">Login</button>
+//     </form>
+//   );
+// };
+
+// Перемикач мов
+// const LangSwitcher = () => {
+//   const selectId = useId();
+//   return (
+//     <div>
+//       <label htmlFor={selectId}></label>
+//       <select id={selectId}>
+//         <option value="en">English</option>
+//         <option value="uk">Ukrainian</option>
+//         <option value="pl">Polish</option>
+//       </select>
+//     </div>
+//   );
+// };
+
+// const App = () => {
+//   return <LangSwitcher />;
+// };
+
+// ? Select поза формою ***************************************
+// const LangSwitcher = () => {
+//   const selectId = useId();
+//   const [lang, setLang] = useState("uk");
+
+//   const handleChange = (evt) => {
+//     setLang(evt.target.value);
+//   };
+//   return (
+//     <div>
+//       <label htmlFor={selectId}>Choose language</label>
+//       <select value={lang} onChange={handleChange} id={selectId}>
+//         <option value="en">English</option>
+//         <option value="uk">Ukrainian</option>
+//         <option value="pl">Polish</option>
+//       </select>
+//     </div>
+//   );
+// };
+
+// const App = () => {
+//   return <LangSwitcher />;
+// };
+
+// ?Select*************************************************
+// const LangSwitcher = ({ value, onSelect }) => {
+//   const selectId = useId();
+
+//   return (
+//     <div>
+//       <label htmlFor={selectId}>Choose language</label>
+//       <select id={selectId} value={value} onChange={onSelect}>
+//         <option value="uk">Ukrainian</option>
+//         <option value="en">English</option>
+//         <option value="pl">Polish</option>
+//       </select>
+//     </div>
+//   );
+// };
+
+// const App = () => {
+//   const [lang, setLang] = useState("uk");
+
+//   const handeleChange = (evt) => {
+//     setLang(evt.target.value);
+//   };
+//   return (
+//     <>
+//       <p>Selected language : {lang}</p>
+//       <LangSwitcher value={lang} onSelect={handeleChange} />
+//     </>
+//   );
+// };
+
+// const App = () => {
+//   const [hasAccepted, setHasAccepted] = useState(true);
+//   const handleChange = (evt) => {
+//     setHasAccepted(evt.target.checked);
+//   };
+
+//   return (
+//     <div>
+//       <label>
+//         <input
+//           type="checkbox"
+//           name="terms"
+//           checked={hasAccepted}
+//           onChange={handleChange}
+//         />
+//         I accept terms and conditions
+//       </label>
+//       <button type="button" disabled={hasAccepted}>
+//         Proceed
+//       </button>
+//     </div>
+//   );
+// };
+
+// ?checkbox ******************************************************
+// const App = () => {
+//   const [hasAccepted, setHasAccepted] = useState(false);
+//   const checkedId = useId();
+
+//   const handleChange = (evt) => {
+//     setHasAccepted(evt.target.checked);
+//     console.log(evt.target.checked);
+//   };
+
+//   return (
+//     <div>
+//       <label htmlFor={checkedId}>
+//         <input
+//           id={checkedId}
+//           type="checkbox"
+//           name="terms"
+//           checked={hasAccepted}
+//           onChange={handleChange}
+//         />
+//         I accept terms and conditions
+//       </label>
+//       <button type="button" disabled={!hasAccepted}>
+//         Proceed
+//       </button>
+//     </div>
+//   );
+// };
+
+//  todo 11  Case на динамічні елементи користувача*********************************** todo
+// const App = () => {
+//   const [inputvalue, setInputValue] = useState("");
+//   const [selectValue, setSelectValue] = useState("visa");
+//   const [users, setUsers] = useState(["Jacob", "Alice", "John", "Poly"]);
+
+//   const isSelect = users
+//     .filter((user) => user.toLowerCase().includes(inputvalue.toLowerCase()))
+//     .sort((a, b) => a.localeCompare(b));
+
+//   return (
+//     <>
+//       <input
+//         type="text"
+//         value={inputvalue}
+//         onChange={(evt) => setInputValue(evt.target.value)}
+//       />
+//       <select
+//         name="payment"
+//         value={selectValue}
+//         onChange={(evt) => setSelectValue(evt.target.value)}
+//       >
+//         <option value="visa">visa</option>
+//         <option value="mastercard">mastercard</option>
+//         <option value="cash">cash</option>
+//       </select>
+//       <ul>
+//         {isSelect.map((user) => (
+//           <li key={user}>{user}</li>
+//         ))}
+//       </ul>
+//     </>
+//   );
+// };
+
+// todo використання бібліотеки Formik
+
+const FeedbackForm = () => {
+  const initialValues = {
+    username: "Ihor",
+    email: "igor@gmail.com",
+  };
+
+  const handleSubmit = (values, action) => {
+    console.log(values);
+    action.resetForm();
+  };
+  return (
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Form>
+        <Field type="text" name="username" />
+        <Field type="email" name="email" />
+        <button type="submit">Submit</button>
+      </Form>
+    </Formik>
+  );
+};
+
+const App = () => {
+  return (
+    <>
+      <FeedbackForm />
+    </>
+  );
+};
 
 export default App;
