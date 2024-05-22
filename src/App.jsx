@@ -2,6 +2,7 @@ import { useState, useEffect, useId } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import { Formik, Form, Field } from "formik";
+import axios from "axios";
 
 import "./App.css";
 
@@ -436,33 +437,82 @@ import "./App.css";
 
 // todo використання бібліотеки Formik
 
-const FeedbackForm = () => {
-  const initialValues = {
-    username: "Ihor",
-    email: "igor@gmail.com",
-  };
+// const FeedbackForm = () => {
+//   const initialValues = {
+//     username: "Ihor",
+//     email: "igor@gmail.com",
+//   };
 
-  const handleSubmit = (values, action) => {
-    console.log(values);
-    action.resetForm();
-  };
-  return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      <Form>
-        <Field type="text" name="username" />
-        <Field type="email" name="email" />
-        <button type="submit">Submit</button>
-      </Form>
-    </Formik>
-  );
-};
+//   const handleSubmit = (values, action) => {
+//     console.log(values);
+//     action.resetForm();
+//   };
+//   return (
+//     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+//       <Form>
+//         <Field type="text" name="username" />
+//         <Field type="email" name="email" />
+//         <button type="submit">Submit</button>
+//       </Form>
+//     </Formik>
+//   );
+// };
 
-const App = () => {
-  return (
-    <>
-      <FeedbackForm />
-    </>
-  );
-};
+// const App = () => {
+//   return (
+//     <>
+//       <FeedbackForm />
+//     </>
+//   );
+// };
+
+// ? HTTP *******************************************
+
+// const App = () => {
+//   const [articles, setArticles] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(false);
+
+//   useEffect(() => {
+//     async function fetchArt() {
+//       try {
+//         setLoading(true);
+//         const res = await axios.get(
+//           "https://hn.algolia.com/api/v1/search1?query=react"
+//         );
+
+//         console.log(res);
+
+//         setArticles(res.data.hits);
+//       } catch (err) {
+//         setError(true);
+//       } finally {
+//         setLoading(false);
+//       }
+//     }
+//     fetchArt();
+//   }, []);
+
+//   return (
+//     <div>
+//       <h1>Latest articles</h1>
+//       {loading && <p>Loading data, please wait...</p>}
+//       {error && (
+//         <p>Whoops, something went wrong! Please try reloading this page!</p>
+//       )}
+//       {articles.length > 0 && (
+//         <ul>
+//           {articles.map(({ objectID, url, title }) => (
+//             <li key={objectID}>
+//               <a href={url} target="_blank" rel="noreferrer noopener">
+//                 {title}
+//               </a>
+//             </li>
+//           ))}
+//         </ul>
+//       )}
+//     </div>
+//   );
+// };
 
 export default App;
