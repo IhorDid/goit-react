@@ -5,6 +5,7 @@ import { Formik, Form, Field } from "formik";
 import axios from "axios";
 
 import "./App.css";
+import Seachbox from "./Seachbox";
 
 // function App() {
 //   const handleClick = (evt) => {
@@ -514,5 +515,13 @@ import "./App.css";
 //     </div>
 //   );
 // };
+
+const App = () => {
+  return (
+    <div>
+      <Seachbox />
+    </div>
+  );
+};
 
 export default App;
