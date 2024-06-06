@@ -6,6 +6,7 @@ import axios from "axios";
 
 import "./App.css";
 import Seachbox from "./Seachbox";
+import Articles from "./Articles";
 
 // function App() {
 //   const handleClick = (evt) => {
@@ -517,19 +518,50 @@ import Seachbox from "./Seachbox";
 // };
 
 const App = () => {
+  // const [article, setArticle] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
+
+  const [article, setArticle] = useState({
+    items: [],
+    loading: false,
+    error: false,
+  });
   const searchArticles = async (query) => {
     try {
+      setArticle({
+        items: [],
+        loading: true,
+        error: false,
+      });
+      // setLoading(true);
+      // Треба для того, щоб наш список прибирався з рендеру
+      // setArticle([]);
+      // Тому що попередне в станы зберігається помилка
+      // setError(false)
       const response = await axios.get(
         `https://hn.algolia.com/api/v1/search?query=${query}`
       );
-      console.log(response);
+      // записуємо в стан http запит
+      // setArticle(response.data.hits);
+
+      // Використовуєм функціональний вираз, а не розпилення((
+      setArticle((prevArticles) => ({
+        ...prevArticles,
+        items: response.data.hits,
+      }));
     } catch (err) {
-      console.log(err);
+      setArticle((prevArticles) => ({ ...prevArticles, error: true }));
+    } finally {
+      setArticle((prevArticles) => ({ ...prevArticles, loading: false }));
     }
   };
   return (
     <div>
       <Seachbox onSearch={searchArticles} />
+      {article.loading && <p>Loasing, please wait ...</p>}
+      {article.error && <p>Ooop, error, please try again</p>}
+      {article.items.length > 0 && <Articles items={article.items} />}
     </div>
   );
 };
