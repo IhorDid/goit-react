@@ -5,7 +5,7 @@ import { Formik, Form, Field } from "formik";
 import axios from "axios";
 
 import "./App.css";
-// import Seachbox from "./Seachbox";
+import Seachbox from "./Seachbox";
 
 // function App() {
 //   const handleClick = (evt) => {
@@ -469,69 +469,69 @@ import "./App.css";
 
 // ? HTTP *******************************************
 
-const App = () => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    async function fetchArt() {
-      try {
-        setLoading(true);
-        const res = await axios.get(
-          "https://hn.algolia.com/api/v1/search1?query=react"
-        );
-
-        console.log(res);
-
-        setArticles(res.data.hits);
-      } catch (err) {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchArt();
-  }, []);
-
-  return (
-    <div>
-      <h1>Latest articles</h1>
-      {loading && <p>Loading data, please wait...</p>}
-      {error && (
-        <p>Whoops, something went wrong! Please try reloading this page!</p>
-      )}
-      {articles.length > 0 && (
-        <ul>
-          {articles.map(({ objectID, url, title }) => (
-            <li key={objectID}>
-              <a href={url} target="_blank" rel="noreferrer noopener">
-                {title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
 // const App = () => {
-//   const searchArticles = async (query) => {
-//     try {
-//       const response = await axios.get(
-//         `https://hn.algolia.com/api/v1/search1?query=${query}`
-//       );
-//       console.log(response);
-//     } catch (err) {
-//       console.log(err);
+//   const [articles, setArticles] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(false);
+
+//   useEffect(() => {
+//     async function fetchArt() {
+//       try {
+//         setLoading(true);
+//         const res = await axios.get(
+//           "https://hn.algolia.com/api/v1/search?query=react"
+//         );
+
+//         console.log(res);
+
+//         setArticles(res.data.hits);
+//       } catch (err) {
+//         setError(true);
+//       } finally {
+//         setLoading(false);
+//       }
 //     }
-//   };
+//     fetchArt();
+//   }, []);
+
 //   return (
 //     <div>
-//       <Seachbox onSearch={searchArticles} />
+//       <h1>Latest articles</h1>
+//       {loading && <p>Loading data, please wait...</p>}
+//       {error && (
+//         <p>Whoops, something went wrong! Please try reloading this page!</p>
+//       )}
+//       {articles.length > 0 && (
+//         <ul>
+//           {articles.map(({ objectID, url, title }) => (
+//             <li key={objectID}>
+//               <a href={url} target="_blank" rel="noreferrer noopener">
+//                 {title}
+//               </a>
+//             </li>
+//           ))}
+//         </ul>
+//       )}
 //     </div>
 //   );
 // };
+
+const App = () => {
+  const searchArticles = async (query) => {
+    try {
+      const response = await axios.get(
+        `https://hn.algolia.com/api/v1/search?query=${query}`
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return (
+    <div>
+      <Seachbox onSearch={searchArticles} />
+    </div>
+  );
+};
 
 export default App;
