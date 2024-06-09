@@ -1,12 +1,12 @@
-import { useState, useEffect, useId } from "react";
+import { useState, useEffect, useId, useMemo } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
 
 import "./App.css";
-import Seachbox from "./Seachbox";
-import Articles from "./Articles";
+// import Seachbox from "./Seachbox";
+// import Articles from "./Articles";
 
 // function App() {
 //   const handleClick = (evt) => {
@@ -517,53 +517,100 @@ import Articles from "./Articles";
 //   );
 // };
 
+// const App = () => {
+//   const [article, setArticle] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(false);
+
+//   const [article, setArticle] = useState({
+//     items: [],
+//     loading: false,
+//     error: false,
+//   });
+//   const searchArticles = async (query) => {
+//     try {
+//       setArticle({
+//         items: [],
+//         loading: true,
+//         error: false,
+//       });
+// setLoading(true);
+// Треба для того, щоб наш список прибирався з рендеру
+// setArticle([]);
+// Тому що попередне в станы зберігається помилка
+// setError(false)
+// const response = await axios.get(
+//   `https://hn.algolia.com/api/v1/search?query=${query}`
+// );
+// записуємо в стан http запит
+// setArticle(response.data.hits);
+
+// Використовуєм функціональний вираз, а не розпилення((
+//       setArticle((prevArticles) => ({
+//         ...prevArticles,
+//         items: response.data.hits,
+//       }));
+//     } catch (err) {
+//       setArticle((prevArticles) => ({ ...prevArticles, error: true }));
+//     } finally {
+//       setArticle((prevArticles) => ({ ...prevArticles, loading: false }));
+//     }
+//   };
+//   return (
+//     <div>
+//       <Seachbox onSearch={searchArticles} />
+//       {article.loading && <p>Loasing, please wait ...</p>}
+//       {article.error && <p>Ooop, error, please try again</p>}
+//       {article.items.length > 0 && <Articles items={article.items} />}
+//     </div>
+//   );
+// };
+
+// ! useMemo
+
+// const App = () => {
+//   const [planets, setPlanet] = useState(["Earth", "Mars", "Jupiter", "Venus"]);
+//   const [query, setQuery] = useState("");
+//   const [clicks, setClicks] = useState(0);
+
+//   const handleClicks = () => {
+//     console.log("handleclick");
+//     setClicks(clicks + 1);
+//   };
+
+//   const filteredPlanets = planets.filter((planet) => planet.includes(query));
+//   return (
+//     <>
+//       <button onClick={handleClicks}>Number of clicks: {clicks}</button>
+//       <ul>
+//         {filteredPlanets.map((planet) => (
+//           <li key={planet}>{planet}</li>
+//         ))}
+//       </ul>
+//     </>
+//   );
+// };
+
 const App = () => {
-  // const [article, setArticle] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(false);
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
+  const [c, setC] = useState(0);
 
-  const [article, setArticle] = useState({
-    items: [],
-    loading: false,
-    error: false,
-  });
-  const searchArticles = async (query) => {
-    try {
-      setArticle({
-        items: [],
-        loading: true,
-        error: false,
-      });
-      // setLoading(true);
-      // Треба для того, щоб наш список прибирався з рендеру
-      // setArticle([]);
-      // Тому що попередне в станы зберігається помилка
-      // setError(false)
-      const response = await axios.get(
-        `https://hn.algolia.com/api/v1/search?query=${query}`
-      );
-      // записуємо в стан http запит
-      // setArticle(response.data.hits);
+  // console.log("Calculating memValue");
+  // const value = a + b;
 
-      // Використовуєм функціональний вираз, а не розпилення((
-      setArticle((prevArticles) => ({
-        ...prevArticles,
-        items: response.data.hits,
-      }));
-    } catch (err) {
-      setArticle((prevArticles) => ({ ...prevArticles, error: true }));
-    } finally {
-      setArticle((prevArticles) => ({ ...prevArticles, loading: false }));
-    }
-  };
+  const memValue = useMemo(() => {
+    console.log("Calculating memValue");
+    return a + b;
+  }, [a, b]);
+
   return (
-    <div>
-      <Seachbox onSearch={searchArticles} />
-      {article.loading && <p>Loasing, please wait ...</p>}
-      {article.error && <p>Ooop, error, please try again</p>}
-      {article.items.length > 0 && <Articles items={article.items} />}
-    </div>
+    <>
+      <button onClick={() => setA((prev) => prev + 1)}>update a: {a}</button>
+      <button onClick={() => setB((prev) => prev + 1)}>update b: {b}</button>
+      <button onClick={() => setC((prev) => prev + 1)}>update c: {c}</button>
+      <p>value: {memValue}</p>
+    </>
   );
 };
-
 export default App;
