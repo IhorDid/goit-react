@@ -592,6 +592,7 @@ import "./App.css";
 // };
 
 const App = () => {
+  const [counter, setCounter] = useState(second);
   const [a, setA] = useState(0);
   const [b, setB] = useState(0);
   const [c, setC] = useState(0);
